@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <div class="container">
+    <div class="main-container">
       <Header></Header>
       <HelloWorld msg="Welcome to Track Your Needs!"/>
+
+      <NeedBar class="column is-one-third"></NeedBar>
 
       <footer class="footer">
         <p>© 2019 Tabea Simon</p>
@@ -14,39 +16,40 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/Header.vue'
+import NeedBar from './components/NeedBar.vue'
+import 'bulma/css/bulma.css'
 
 export default {
   name: 'app',
   components: {
     HelloWorld,
-    Header
+    Header,
+    NeedBar
   }
 }
 </script>
 
-<style>
-body, html {
-  margin: 0px !important;
-}
-#app {
-  height: 100vh;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="sass">
+body, html 
+  margin: 0px !important
 
-.container {
-  position: relative;
-  height: 100%;
-}
+#app 
+  height: 100vh
+  font-family: 'Avenir', Helvetica, Arial, sans-serif
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  text-align: center
+  color: #2c3e50
 
-footer {
-  position: absolute;
-  height: 40px;
-  width: 100%;
-  bottom: 0;
-  background-color: #C4C4C4;
-}
+.main-container 
+  position: relative
+  height: 100%
+
+  footer 
+    position: absolute
+    height: 40px
+    width: 100%
+    bottom: 0
+    background-color: #C4C4C4
+
 </style>
