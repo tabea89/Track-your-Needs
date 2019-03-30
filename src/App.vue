@@ -4,7 +4,12 @@
       <Header></Header>
       <HelloWorld msg="Welcome to Track Your Needs!"/>
 
-      <NeedBar class="column is-one-third"></NeedBar>
+      <NeedBar 
+        v-for="need in needs" 
+        :title="need.title"
+        :key="need.title"
+        :status="need.status"
+        class="column is-one-third"></NeedBar>
 
       <footer class="footer">
         <p>© 2019 Tabea Simon</p>
@@ -25,6 +30,17 @@ export default {
     HelloWorld,
     Header,
     NeedBar
+  },
+  data () {
+      return {
+          needs: [
+          { title: 'Sleep', status: 30 },
+          { title: 'Social Life', status: 80 },
+          { title: 'Nutrition', status: 10 },
+          { title: 'Sport', status: 90 }
+        ]
+      }
+
   }
 }
 </script>
