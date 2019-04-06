@@ -10,18 +10,20 @@ export default {
 }
 </script>
 
-<style>
+<style lang="sass">
+.navbar
+    background-color: #C4C4C4
 
-.nav {
-    background-color: #C4C4C4;
-    text-align: left;
+.nav 
+    background-color: #C4C4C4
+    text-align: left
     height: 40px
-}
 
-.app_name {
-    font-size: 15px;
-    padding: 5px;
+
+.app_name 
+    font-size: 15px
+    padding: 5px
     margin: 0px
-}
+
 
 </style>

@@ -3,15 +3,32 @@
     <div class="main-container">
       <Header></Header>
       <HelloWorld msg="Welcome to Track Your Needs!"/>
+      
+      <div class="container home">
+        <div class="column is-half">
+          <img class="home-avatar" src="./assets/imgs/girl.svg" />
 
-      <NeedBar 
-        v-for="need in needs" 
-        :title="need.title"
-        :key="need.title"
-        :status="need.status"
-        class="column is-one-third"></NeedBar>
+          <div>
+            <h2 class="home-user">Tabea</h2>
+          </div>
 
-      <footer class="footer">
+          <NeedBar 
+            v-for="need in needs" 
+            :title="need.title"
+            :key="need.title"
+            :status="need.status"
+            class="column is-half"></NeedBar>
+
+        </div>
+
+        <div class="column is-half">
+          <div class="home-entry">
+            <button class="btn-entry">Add entry</button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="">
         <p>© 2019 Tabea Simon</p>
       </footer>
     </div>
@@ -60,6 +77,27 @@ body, html
 .main-container 
   position: relative
   height: 100%
+
+  .home
+    display: flex
+
+  .home-user
+    font-size: 1.5em
+    font-weight: bold
+
+  .home-avatar
+    height: 200px
+
+  .home-entry
+    height: 50%
+    display: flex
+    justify-content: center
+    align-items: center
+
+    .btn-entry
+      height: 100px
+      width: 200px
+      background-color: grey
 
   footer 
     position: absolute
