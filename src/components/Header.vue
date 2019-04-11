@@ -1,6 +1,6 @@
 <template>
     <div class="nav navbar">
-        <h1 class="app_name">Track your Needs</h1>
+        <router-link :to="{ name: 'home' }" class="home">home</router-link>
     </div>
 </template>
 

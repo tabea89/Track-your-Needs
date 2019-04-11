@@ -2,31 +2,7 @@
   <div id="app">
     <div class="main-container">
       <Header></Header>
-      <HelloWorld msg="Welcome to Track Your Needs!"/>
-      
-      <div class="container home">
-        <div class="column is-half">
-          <img class="home-avatar" src="./assets/imgs/girl.svg" />
-
-          <div>
-            <h2 class="home-user">Tabea</h2>
-          </div>
-
-          <NeedBar 
-            v-for="need in needs" 
-            :title="need.title"
-            :key="need.title"
-            :status="need.status"
-            class="column is-half"></NeedBar>
-
-        </div>
-
-        <div class="column is-half">
-          <div class="home-entry">
-            <button class="btn-entry">Add entry</button>
-          </div>
-        </div>
-      </div>
+      <router-view></router-view>
 
       <footer class="">
         <p>© 2019 Tabea Simon</p>
@@ -36,29 +12,16 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/Header.vue'
-import NeedBar from './components/NeedBar.vue'
+
 import 'bulma/css/bulma.css'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
-    Header,
-    NeedBar
-  },
-  data () {
-      return {
-          needs: [
-          { title: 'Sleep', status: 30 },
-          { title: 'Social Life', status: 80 },
-          { title: 'Nutrition', status: 10 },
-          { title: 'Sport', status: 90 }
-        ]
-      }
-
+    Header
   }
+
 }
 </script>
 
