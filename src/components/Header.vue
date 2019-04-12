@@ -1,6 +1,6 @@
 <template>
     <div class="nav navbar">
-        <router-link :to="{ name: 'home' }" class="home">home</router-link>
+        <router-link :to="{ name: 'home' }" class="home">Home</router-link>
     </div>
 </template>
 

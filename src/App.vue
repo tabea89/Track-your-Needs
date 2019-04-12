@@ -41,9 +41,6 @@ body, html
   position: relative
   height: 100%
 
-  .home
-    display: flex
-
   .home-user
     font-size: 1.5em
     font-weight: bold
@@ -56,11 +53,6 @@ body, html
     display: flex
     justify-content: center
     align-items: center
-
-    .btn-entry
-      height: 100px
-      width: 200px
-      background-color: grey
 
   footer 
     position: absolute
