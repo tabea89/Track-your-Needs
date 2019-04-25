@@ -27,7 +27,6 @@
                             :value="hr.number">
                                 {{hr.number}} 
                         </option>
-                        <option>With options</option>
                     </select>
                 </div>
 
@@ -61,6 +60,16 @@ export default {
     methods: {
         save: function(){
             console.log('SAVE', this.hrsSlept)
+
+            // Save to firestore
+            db.collection('needs').add({
+                user: 'admin',
+                need: 'sleep',
+                hrsSlept: this.hrsSlept,
+                timeStamp: new Date().toDateString()
+            })
+
+            this.$router.push({name:'home'})
         }
     }
 }
@@ -75,7 +84,7 @@ export default {
     img
         width: 40%
 
-.entry__data
+/* .entry__data
     display: flex
     flex-direction: column
     width: 100%
@@ -83,6 +92,6 @@ export default {
     .select
         max-width: 200px
         margin-bottom: 30px
-        margin-top: 30px
+        margin-top: 30px */
 
 </style>
