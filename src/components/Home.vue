@@ -42,16 +42,36 @@ export default {
     components: {
         NeedBar
   },
+  created() {
+    this.getNeedData()
+  },
   data () {
       return {
+          hrsSlept: [],
           needs: [
-          { title: 'Sleep', status: 30 },
+          { title: 'Sleep', status: 0 },
           { title: 'Social Life', status: 80 },
           { title: 'Nutrition', status: 10 },
-          { title: 'Sport', status: 90 }
+          { title: 'Sport', status: 50 }
         ]
       }
   },
+  methods:{
+    getNeedData(){
+      db.collection('needs').get().then((querySnapshot)=>{
+
+        if (querySnapshot.empty) { //Check whether there are any documents in the result
+            console.log('no documents found');
+        } else {
+          let hrsSleep = []
+          querySnapshot.forEach(doc=>{
+            hrsSleep.push(doc.data())
+          })
+          this.needs[0].status = parseInt(hrsSleep[0].hrsSlept)*10
+        }
+      })
+    }
+  }
 
 }
 </script>
