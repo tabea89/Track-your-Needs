@@ -67,7 +67,7 @@ export default {
           querySnapshot.forEach(doc=>{
             hrsSleep.push(doc.data())
           })
-          this.needs[0].status = parseInt(hrsSleep[0].hrsSlept)*10
+          this.needs[0].status = parseInt(hrsSleep[hrsSleep.length-1].hrsSlept)*10
         }
       })
     }

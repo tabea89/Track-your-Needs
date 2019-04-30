@@ -15,13 +15,13 @@ export default {
     computed: {
         activeColor: function() {
             if (this.status >= 70) {
-                return 'green'
+                return '#AFE46B'
             }
             else if (this.status >= 40){
-                return 'orange'
+                return '#F7c5c4'
             }
             else {
-                return 'red'
+                return '#FE8989'
             }
         }
     }
@@ -41,5 +41,7 @@ export default {
     .needs-status
         background-color: blue
         height: 30px
+        width: 0px
+        transition: width .4s ease-in-out
 
 </style>
