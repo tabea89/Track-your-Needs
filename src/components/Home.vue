@@ -10,8 +10,8 @@
 
           <NeedBar 
             v-for="need in needs" 
-            :title="need.title"
-            :key="need.title"
+            :title="need.name"
+            :key="need.name"
             :status="need.status"
             class="column is-half"></NeedBar>
 
@@ -43,36 +43,18 @@ export default {
         NeedBar
   },
   created() {
-    this.getNeedData()
+    this.$store.dispatch('getNeedData')
   },
   data () {
       return {
-          hrsSlept: [],
-          needs: [
-          { title: 'Sleep', status: 0 },
-          { title: 'Social Life', status: 80 },
-          { title: 'Nutrition', status: 10 },
-          { title: 'Sport', status: 50 }
-        ]
+          hrsSlept: []
       }
   },
-  methods:{
-    getNeedData(){
-      db.collection('needs').get().then((querySnapshot)=>{
-
-        if (querySnapshot.empty) { //Check whether there are any documents in the result
-            console.log('no documents found');
-        } else {
-          let hrsSleep = []
-          querySnapshot.forEach(doc=>{
-            hrsSleep.push(doc.data())
-          })
-          this.needs[0].status = parseInt(hrsSleep[hrsSleep.length-1].hrsSlept)*10
-        }
-      })
-    }
+  computed: {
+      needs(){
+          return this.$store.state.needs
+      } 
   }
-
 }
 </script>
 

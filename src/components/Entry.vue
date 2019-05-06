@@ -43,31 +43,18 @@ export default {
     name: 'Entry',
     data () {
         return {
-            hrsSleep: [
-                {key: 1, number: '1'},
-                {key: 3, number: '2'},
-                {key: 4, number: '3'},
-                {key: 5, number: '4'},
-                {key: 6, number: '5'},
-                {key: 7, number: '6'},
-                {key: 8, number: '7'},
-                {key: 9, number: '8'},
-                {key: 10, number: '9+'}
-            ],
             hrsSlept: 0
         }
     },
+    computed: {
+        hrsSleep(){
+            return this.$store.state.hrsSleep
+        } 
+    },
     methods: {
         save: function(){
-            console.log('SAVE', this.hrsSlept)
-
-            // Save to firestore
-            db.collection('needs').add({
-                user: 'admin',
-                need: 'sleep',
-                hrsSlept: this.hrsSlept,
-                timeStamp: new Date().toDateString()
-            })
+            this.$store.commit('updateEntry', this.hrsSlept)
+            this.$store.dispatch('newEntry')
 
             this.$router.push({name:'home'})
         }
