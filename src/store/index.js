@@ -13,7 +13,7 @@ export const store = new Vuex.Store({
             {id: 4, name: 'Sport', status: 30}
         ],
         users: [
-            {name: 'Lisa', status: 'empty'}
+            {firstName: 'Lisa', status: 'empty'}
         ],
         hrsSleep: [
             {key: 1, number: '1'},
@@ -33,9 +33,6 @@ export const store = new Vuex.Store({
         },
         updateStatus(state, newState){
             state.users[0].status = newState
-        },
-        updateUsers(state, users){
-            state.users = users
         }
     },
     actions: {
@@ -63,11 +60,10 @@ export const store = new Vuex.Store({
         },
         getUserData(){
             firebase.firestore().collection('users').get().then((querySnapshot)=>{
-                let users = []
                 querySnapshot.forEach(doc=>{
-                  users.push(doc.data())
+                    this.state.users.push(doc.data())
                 })
-                this.state.users = users
+                console.log('Users', this.state.users)
             })
 
         },

@@ -5,7 +5,7 @@
           <img class="home-avatar" src="../assets/imgs/girl.svg" />
 
           <div>
-            <h1 class="home-user">Tabea</h1>
+            <h1 class="home-user">{{ userName }}</h1>
           </div>
 
           <NeedBar 
@@ -47,19 +47,22 @@ export default {
   },
   data () {
       return {
-          userName: ''
+          //userName: ''
       }
   },
   computed: {
       needs(){
           return this.$store.state.needs
+      },
+      userName(){
+        return this.$store.state.users[0].firstName
       } 
   },
   methods: {
     fetchData() {
       this.$store.dispatch('getNeedData')
       this.$store.dispatch('getUserData')
-      // this.userName = this.$store.state.users[0].firstName
+      //this.userName = this.$store.state.users[0].firstName
     }
   }
 }
