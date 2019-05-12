@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2> {{ title }}</h2>
+        <h1> {{ title }}</h1>
         <div class="bar">
             <div class="needs-status" :style="{ width: status + '%', backgroundColor: activeColor}"></div>
         </div>

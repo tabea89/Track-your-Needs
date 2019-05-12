@@ -5,7 +5,7 @@
           <img class="home-avatar" src="../assets/imgs/girl.svg" />
 
           <div>
-            <h2 class="home-user">Tabea</h2>
+            <h1 class="home-user">Tabea</h1>
           </div>
 
           <NeedBar 
@@ -43,17 +43,24 @@ export default {
         NeedBar
   },
   created() {
-    this.$store.dispatch('getNeedData')
+    this.fetchData()
   },
   data () {
       return {
-          hrsSlept: []
+          userName: ''
       }
   },
   computed: {
       needs(){
           return this.$store.state.needs
       } 
+  },
+  methods: {
+    fetchData() {
+      this.$store.dispatch('getNeedData')
+      this.$store.dispatch('getUserData')
+      // this.userName = this.$store.state.users[0].firstName
+    }
   }
 }
 </script>

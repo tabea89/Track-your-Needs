@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2 class="entry__header">How did today go?</h2>
+        <h1 class="entry__header">How did today go?</h1>
 
         <div class="columns is-mobile">
             <div class="column is-half">
@@ -13,22 +13,12 @@
             <div class="is-divider-vertical"></div>
 
             <div class="column is-half entry__data">
-                <h3>How much sleep did you get today?</h3>
 
-                <div class="select">
-                    <select v-model="hrsSlept">
-                        <option
-                        :value=0>
-                            0
-                        </option>
-                        <option 
-                            v-for="hr in hrsSleep"
-                            :key="hr.key"
-                            :value="hr.number">
-                                {{hr.number}} 
-                        </option>
-                    </select>
-                </div>
+                <Sleep v-if="userStatus == 'empty'"></Sleep>
+
+                <Social  v-else-if="userStatus == 'sleepLogged'"></Social>
+
+                <p v-else>Entry already added</p>
 
                 <button class="button is-primary submit" @click="save">Save</button>
             </div>
@@ -37,26 +27,47 @@
 </template>
 
 <script>
+import Sleep from '../components/Sleep'
+import Social from '../components/Social'
+
 import 'bulma-divider/dist/css/bulma-divider.min.css'
 
 export default {
     name: 'Entry',
+    components: {
+        Sleep,
+        Social
+  },
     data () {
         return {
-            hrsSlept: 0
+            status: this.$store.state.users[0].status
         }
     },
     computed: {
         hrsSleep(){
             return this.$store.state.hrsSleep
-        } 
+        },
+        userStatus(){
+            return this.$store.state.users[0].status
+        }
     },
     methods: {
         save: function(){
-            this.$store.commit('updateEntry', this.hrsSlept)
+            this.$store.commit('updateEntry', this.$store.state.needs[0].status)
             this.$store.dispatch('newEntry')
 
-            this.$router.push({name:'home'})
+            if (this.userStatus == 'empty') {
+                //this.userStatus = 'sleepLogged'
+                this.$store.commit('updateStatus', 'sleepLogged')
+                // console.log('Status 1', this.userStatus)
+            }
+            else if (this.userStatus == 'sleepLogged'){
+                this.$store.state.users[0].status = 'socialLogged'
+                this.$router.push({name:'home'})
+                // console.log('Status 1', this.userStatus)
+            }
+
+           
         }
     }
 }
@@ -71,14 +82,14 @@ export default {
     img
         width: 40%
 
-/* .entry__data
+.entry__data
     display: flex
     flex-direction: column
+    align-items: center
     width: 100%
 
-    .select
-        max-width: 200px
-        margin-bottom: 30px
-        margin-top: 30px */
+    button
+        width: 200px
+
 
 </style>

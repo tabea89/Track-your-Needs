@@ -4,7 +4,7 @@
       <Header></Header>
       <router-view></router-view>
 
-      <footer class="">
+      <footer>
         <p>© 2019 Tabea Simon</p>
       </footer>
     </div>
@@ -21,7 +21,6 @@ export default {
   components: {
     Header
   }
-
 }
 </script>
 

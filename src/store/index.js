@@ -12,6 +12,9 @@ export const store = new Vuex.Store({
             {id: 3, name: 'Nutrition', status: 60},
             {id: 4, name: 'Sport', status: 30}
         ],
+        users: [
+            {name: 'Lisa', status: 'empty'}
+        ],
         hrsSleep: [
             {key: 1, number: '1'},
             {key: 3, number: '2'},
@@ -26,7 +29,13 @@ export const store = new Vuex.Store({
     }, 
     mutations: {
         updateEntry(state, quantity){
-            state.needs[0].status = quantity
+            state.needs[0].status = quantity;
+        },
+        updateStatus(state, newState){
+            state.users[0].status = newState
+        },
+        updateUsers(state, users){
+            state.users = users
         }
     },
     actions: {
@@ -43,7 +52,7 @@ export const store = new Vuex.Store({
             })
         },
         getNeedData(){
-            this.state.needs[0].status *= 10
+            this.state.needs[0].status *= 10;
             /* firebase.firestore().collection('needs').get().then((querySnapshot)=>{
                 let hrsSleep = []
                 querySnapshot.forEach(doc=>{
@@ -51,7 +60,17 @@ export const store = new Vuex.Store({
                 })
                 this.state.needs[0].status = parseInt(hrsSleep[hrsSleep.length-1].hrsSlept)*10
             }) */
-          }
+        },
+        getUserData(){
+            firebase.firestore().collection('users').get().then((querySnapshot)=>{
+                let users = []
+                querySnapshot.forEach(doc=>{
+                  users.push(doc.data())
+                })
+                this.state.users = users
+            })
+
+        },
     },
     getter: {}
 })

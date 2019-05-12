@@ -3,9 +3,10 @@ import App from './App.vue'
 import router from './router'
 import { store } from './store/index'
 import firebase from 'firebase'
+import 'firebase/firestore'
 
 // Required for side-effects
-require("firebase/firestore")
+require("firebase/firestore");
 
 var config = {
   apiKey: "AIzaSyBkQ5zhn6xJDaeUTZAvhz5MIb1kgsFJvBE",
@@ -15,14 +16,14 @@ var config = {
   storageBucket: "your-needs.appspot.com",
   messagingSenderId: "309328936591"
 }
-firebase.initializeApp(config)
+firebase.initializeApp(config);
 
 // Initialize Cloud firestore through Firebase
-var db = firebase.firestore()
+const db = firebase.firestore();
 
-window.db = db
+window.db = db;
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   store: store,
