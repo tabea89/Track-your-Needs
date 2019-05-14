@@ -5,7 +5,7 @@
         <div class="columns is-mobile">
             <div class="column is-half">
                 <div class="entry__needicon">
-                    <img class="entry__needicon--svg" src="../assets/imgs/moon.svg" />
+                    <img class="entry__needicon--svg" src="../assets/img/moon.svg"/>
                 </div>
                 <span>Sleep</span>
             </div>
@@ -49,22 +49,24 @@ export default {
         },
         userStatus(){
             return this.$store.state.users[0].status
+        },
+        icon(){
+            return "../assets/img/moon.svg"
         }
     },
     methods: {
         save: function(){
             this.$store.commit('updateEntry', this.$store.state.needs[0].status)
-            this.$store.dispatch('newEntry')
 
             if (this.userStatus == 'empty') {
-                //this.userStatus = 'sleepLogged'
                 this.$store.commit('updateStatus', 'sleepLogged')
-                // console.log('Status 1', this.userStatus)
+                this.$store.dispatch('newSleepEntry')
             }
             else if (this.userStatus == 'sleepLogged'){
+                console.log('test', this.$store.state.needs[1].status)
                 this.$store.state.users[0].status = 'socialLogged'
+                this.$store.dispatch('newSocialEntry')
                 this.$router.push({name:'home'})
-                // console.log('Status 1', this.userStatus)
             }
 
            

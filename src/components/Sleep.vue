@@ -1,4 +1,5 @@
 <template>
+
     <div class="select">
         <label>How much did you sleep?</label>
         <select v-model="hrsSlept">
@@ -9,7 +10,7 @@
             <option 
                 v-for="hr in hrsSleep"
                 :key="hr.key"
-                :value="hr.number">
+                :value="hr.value">
                     {{hr.number}} 
             </option>
         </select>
@@ -34,16 +35,7 @@ export default {
         hrsSleep(){
             return this.$store.state.hrsSleep
         } 
-    },
-    methods: {
-        save: function(){
-            this.$store.commit('updateEntry', this.hrsSlept)
-            this.$store.dispatch('newEntry')
-
-            this.$router.push({name:'home'})
-        }
     }
-
 }
 </script>
 

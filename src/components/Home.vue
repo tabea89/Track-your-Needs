@@ -2,10 +2,11 @@
     <div class="container home">
       <div class="columns">
         <div class="column is-half">
-          <img class="home-avatar" src="../assets/imgs/girl.svg" />
+          <img class="home-avatar" src="../assets/img/girl.svg" />
 
           <div>
-            <h1 class="home-user">{{ userName }}</h1>
+            <h1 v-if="userName" class="home-user">{{ userName }}</h1>
+            <p v-else></p>
           </div>
 
           <NeedBar 
@@ -21,7 +22,7 @@
           <div class="entry">
             <router-link :to="{ name: 'Entry' }" class="btn-entry">
               <button class="entry__btn">
-                <img class="home-icon--entry" src="../assets/imgs/add.svg" />
+                <img class="home-icon--entry" src="../assets/img/add.svg" />
                 <span class="entry-copy">Add entry</span>
               </button>
             </router-link>
@@ -42,28 +43,22 @@ export default {
     components: {
         NeedBar
   },
-  created() {
-    this.fetchData()
-  },
-  data () {
-      return {
-          //userName: ''
-      }
+  async created(){
+    this.$store.dispatch('getNeedData')
+    this.$store.dispatch('getUserData')
   },
   computed: {
       needs(){
           return this.$store.state.needs
       },
       userName(){
-        return this.$store.state.users[0].firstName
+        if (this.$store.state.users[0]) {
+          return this.$store.state.users[0].firstName
+        }
+        else {
+          return ''
+        }
       } 
-  },
-  methods: {
-    fetchData() {
-      this.$store.dispatch('getNeedData')
-      this.$store.dispatch('getUserData')
-      //this.userName = this.$store.state.users[0].firstName
-    }
   }
 }
 </script>
