@@ -18,8 +18,6 @@
 
                 <Social  v-else-if="userStatus == 'sleepLogged'"></Social>
 
-                <p v-else>Entry already added</p>
-
                 <button class="button is-primary submit" @click="save">Save</button>
             </div>
         </div>
@@ -38,10 +36,8 @@ export default {
         Sleep,
         Social
   },
-    data () {
-        return {
-            status: this.$store.state.users[0].status
-        }
+    created(){
+        this.$store.state.users[0].status = 'empty'   
     },
     computed: {
         hrsSleep(){
@@ -68,8 +64,6 @@ export default {
                 this.$store.dispatch('newSocialEntry')
                 this.$router.push({name:'home'})
             }
-
-           
         }
     }
 }

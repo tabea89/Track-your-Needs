@@ -23,7 +23,8 @@
             <router-link :to="{ name: 'Entry' }" class="btn-entry">
               <button class="entry__btn">
                 <img class="home-icon--entry" src="../assets/img/add.svg" />
-                <span class="entry-copy">Add entry</span>
+                <span v-if="userStatus == 'empty'" class="entry-copy">Add entry</span>
+                <span v-else class="entry-copy">Update entry</span>
               </button>
             </router-link>
           </div>
@@ -58,7 +59,15 @@ export default {
         else {
           return ''
         }
-      } 
+      },
+      userStatus(){
+        if (this.$store.state.users[0]) {
+          return this.$store.state.users[0].status
+        }
+        else {
+          return ''
+        }
+      }
   }
 }
 </script>

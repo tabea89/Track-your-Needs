@@ -3,10 +3,6 @@
     <div class="select">
         <label>How much did you sleep?</label>
         <select v-model="hrsSlept">
-            <option
-            :value=0>
-                0
-            </option>
             <option 
                 v-for="hr in hrsSleep"
                 :key="hr.key"
