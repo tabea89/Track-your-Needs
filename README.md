@@ -2,8 +2,13 @@
 
 ## Project setup
 ```
+git clone https://github.com/tabea89/need_tracker_app.git
+```
+
+```
 npm install
 ```
+
 
 ### Compiles and hot-reloads for development
 ```
