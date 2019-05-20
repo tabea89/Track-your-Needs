@@ -1,0 +1,19 @@
+{
+    "env": {
+        "development": {
+            "presets": [
+                "@vue/app"
+            ]
+        },
+        "prod": {
+            "presets": [
+                "@vue/app"
+            ]
+        },
+        "test": {
+            "presets": [
+                ["env", { "targets": { "node": "current"}}]
+            ]
+        }
+    }
+}

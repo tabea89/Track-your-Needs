@@ -54,12 +54,11 @@ export default {
         save: function(){
             this.$store.commit('updateEntry', this.$store.state.needs[0].status)
 
-            if (this.userStatus == 'empty') {
+            if (this.userStatus === 'empty') {
                 this.$store.commit('updateStatus', 'sleepLogged')
                 this.$store.dispatch('newSleepEntry')
             }
-            else if (this.userStatus == 'sleepLogged'){
-                console.log('test', this.$store.state.needs[1].status)
+            else if (this.userStatus === 'sleepLogged'){
                 this.$store.state.users[0].status = 'socialLogged'
                 this.$store.dispatch('newSocialEntry')
                 this.$router.push({name:'home'})

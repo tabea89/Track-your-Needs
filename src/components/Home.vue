@@ -37,8 +37,6 @@
 <script>
 import NeedBar from '../components/NeedBar'
 
-import 'bulma/css/bulma.css'
-
 export default {
     name: 'home',
     components: {
