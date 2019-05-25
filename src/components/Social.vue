@@ -29,7 +29,6 @@ export default {
         picked: function(val){
             if (val == "Yes") {
                 this.$store.state.needs[1].status = 100
-                console.log('blaa', this.$store.state.needs[1].status)
             } 
             else if (val == "No") {
                 this.$store.state.needs[1].status = 10

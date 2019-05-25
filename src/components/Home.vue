@@ -19,6 +19,7 @@
         </div>
 
         <div class="column is-half">
+
           <div class="entry">
             <router-link :to="{ name: 'Entry' }" class="btn-entry">
               <button class="entry__btn">
@@ -28,6 +29,14 @@
               </button>
             </router-link>
           </div>
+
+          <WeeklyOverview
+            v-for="entry in sleepEntries[0].sleep" 
+            :day="entry.weekday"
+            :quantity="entry.hrsSlept"
+            :key="entry.timeStamp">
+          </WeeklyOverview>
+
         </div>
       </div>
     </div>
@@ -36,11 +45,13 @@
 
 <script>
 import NeedBar from '../components/NeedBar'
+import WeeklyOverview from '../components/WeeklyOverview'
 
 export default {
     name: 'home',
     components: {
-        NeedBar
+        NeedBar,
+        WeeklyOverview
   },
   async created(){
     this.$store.dispatch('getNeedData')
@@ -48,7 +59,8 @@ export default {
   },
   computed: {
       needs(){
-          return this.$store.state.needs
+        console.log('needs', this.$store.state.needs)
+        return this.$store.state.needs
       },
       userName(){
         if (this.$store.state.users[0]) {
@@ -61,6 +73,15 @@ export default {
       userStatus(){
         if (this.$store.state.users[0]) {
           return this.$store.state.users[0].status
+        }
+        else {
+          return ''
+        }
+      },
+      sleepEntries(){
+        if (this.$store.state.entries) {
+          console.log('sleepentries', this.$store.state.entries[0].sleep)
+          return this.$store.state.entries
         }
         else {
           return ''

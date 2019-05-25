@@ -12,6 +12,10 @@ export const store = new Vuex.Store({
             {id: 3, name: 'Nutrition', status: 60},
             {id: 4, name: 'Sport', status: 30}
         ],
+        entries: [
+            {sleep: []},
+            {social: []}
+        ],
         users: [
         ],
         hrsSleep: [
@@ -28,8 +32,11 @@ export const store = new Vuex.Store({
         ]
     }, 
     mutations: {
-        updateEntry(state, quantity){
+        updateEntrySleep(state, quantity){
             state.needs[0].status = quantity;
+        },
+        updateEntrySocial(state, quantity){
+            state.needs[1].status = quantity;
         },
         updateStatus(state, newState){
             state.users[0].status = newState;
@@ -41,48 +48,128 @@ export const store = new Vuex.Store({
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var time = today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + ":" + ('0' + today.getSeconds()).slice(-2);
             // Save to firestore
-            firebase.firestore().collection('needs/1/sleep').doc().set({
-                user_id: this.state.users[0].id,
-                hrsSlept: this.state.needs[0].status,
-                timeStamp: date+' '+time
-            })
+            firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").limit(1)
+            .get()
+            .then(querySnapshot => {
+                if (!querySnapshot.empty) {
+
+                    const queryDocumentSnapshot = querySnapshot.docs[0];
+
+                    if (queryDocumentSnapshot.data().day && queryDocumentSnapshot.data().day == date) {
+                        // Overwrite entry of that dat
+                        return queryDocumentSnapshot.ref.update({
+                            hrsSlept: this.state.needs[0].status,
+                            timeStamp: date+' '+time,
+                        });
+                    } 
+                    else {
+                        // First entry of that date
+                        firebase.firestore().collection('needs/1/sleep').doc().set({
+                            user_id: this.state.users[0].id,
+                            hrsSlept: this.state.needs[0].status,
+                            timeStamp: date+' '+time,
+                            day: date,
+                            weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                        })
+                    } 
+                } 
+                else {
+                    // First entry of database is empty
+                    firebase.firestore().collection('needs/1/sleep').doc().set({
+                        user_id: this.state.users[0].id,
+                        hrsSlept: this.state.needs[0].status,
+                        timeStamp: date+' '+time,
+                        day: date,
+                        weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                    })
+                }
+            });
+
         },
         newSocialEntry() {
             var today = new Date();
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var time = today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + ":" + ('0' + today.getSeconds()).slice(-2);
             // Save to firestore
-            firebase.firestore().collection('needs/2/social').doc().set({
+           /*  firebase.firestore().collection('needs/2/social').doc().set({
                 user_id: this.state.users[0].id,
                 socialized: this.state.needs[1].status,
                 timeStamp: date+' '+time
-            })
+            }) */
+            firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(1)
+            .get()
+            .then(querySnapshot => {
+                if (!querySnapshot.empty) {
+
+                    const queryDocumentSnapshot = querySnapshot.docs[0];
+
+                    if (queryDocumentSnapshot.data().day && queryDocumentSnapshot.data().day == date) {
+                        // Overwrite entry of that dat
+                        return queryDocumentSnapshot.ref.update({
+                            socialized: this.state.needs[1].status,
+                            timeStamp: date+' '+time,
+                        });
+                    } 
+                    else {
+                        // First entry of that date
+                        firebase.firestore().collection('needs/2/social').doc().set({
+                            user_id: this.state.users[0].id,
+                            socialized: this.state.needs[1].status,
+                            timeStamp: date+' '+time,
+                            day: date,
+                            weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                        });
+                    } 
+                } 
+                else {
+                    // First entry of database is empty
+                    firebase.firestore().collection('needs/2/social').doc().set({
+                        user_id: this.state.users[0].id,
+                        socialized: this.state.needs[1].status,
+                        timeStamp: date+' '+time,
+                        day: date,
+                        weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                    })
+                }
+            });
         },
         getNeedData() {
-            firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
+            firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").limit(1).get().then((querySnapshot)=>{
                 let hrsSleep = []
                 querySnapshot.forEach(doc=>{
                   hrsSleep.push(doc.data())
                 })
                 this.state.needs[0].status = hrsSleep[0].hrsSlept * 10
-                console.log('Sleep', hrsSleep[0].hrsSlept)
+                console.log('Sleep!!', this.state.needs[0].status )
             })
-            firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
+            firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(1).get().then((querySnapshot)=>{
                 let social = []
+                this.state.needs[1].status = 0
                 querySnapshot.forEach(doc=>{
                   social.push(doc.data())
                 })
-                console.log('social', social[0].socialized)
+                console.log('social!!', social[0].socialized)
                 this.state.needs[1].status = social[0].socialized
             })
         },
         getUserData() {
+            this.state.entries[0].sleep = []
+            this.state.entries[0].social = []
+            firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").limit(7).get().then((querySnapshot)=>{
+                querySnapshot.forEach(doc=>{
+                    this.state.entries[0].sleep.push(doc.data())
+                })
+            })
+            firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(7).get().then((querySnapshot)=>{
+                querySnapshot.forEach(doc=>{
+                    this.state.entries[1].social.push(doc.data())
+                })
+            });
             firebase.firestore().collection('users').get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
                     this.state.users.push(doc.data())
                 })
             })
-
         },
     },
     getter: {}

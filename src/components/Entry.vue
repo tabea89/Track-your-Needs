@@ -52,13 +52,14 @@ export default {
     },
     methods: {
         save: function(){
-            this.$store.commit('updateEntry', this.$store.state.needs[0].status)
-
+                this.$store.commit('updateEntrySleep', this.$store.state.needs[0].status)
             if (this.userStatus === 'empty') {
                 this.$store.commit('updateStatus', 'sleepLogged')
                 this.$store.dispatch('newSleepEntry')
             }
             else if (this.userStatus === 'sleepLogged'){
+                this.$store.commit('updateEntrySocial', this.$store.state.needs[1].status)
+                console.log('WHYY', this.$store.state.needs[1].status)
                 this.$store.state.users[0].status = 'socialLogged'
                 this.$store.dispatch('newSocialEntry')
                 this.$router.push({name:'home'})
