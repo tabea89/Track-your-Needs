@@ -6,10 +6,33 @@
     export default {
         extends: Bar,
         mixins: [reactiveProp],
+        data: () => ({
+        options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMin: 0
+                        }
+                    }]
+                }
+            }
+        }),
         mounted () {
-            // this.chartData is created in the mixin.
-            // If you want to pass options please create a local options object
             this.renderChart(this.chartData, this.options)
-        }
+           /*  this.renderChart({
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday', 'Sunday'],
+            datasets: [
+                {
+                label: 'Hours slept',
+                backgroundColor: '#f87979',
+                data: [40, 39, 10, 40, 39, 80]
+                }
+            ]
+            }, {responsive: true, maintainAspectRatio: false})
+            */
+        } 
+  
     }
 </script>

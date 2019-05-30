@@ -18,7 +18,7 @@
 
         </div>
 
-        <div class="column is-half">
+        <div class="column is-half flex">
 
           <div class="entry">
             <router-link :to="{ name: 'Entry' }" class="btn-entry">
@@ -30,11 +30,8 @@
             </router-link>
           </div>
 
-          <weekly-chart 
-            v-show="!loaded"
-            :chartData="chartData"
-            :options="options"
-            ></weekly-chart>
+          <h2>Weekly Overview</h2>
+          <weekly-chart :chart-data="sleepEntries"></weekly-chart>
 
           <WeeklyOverview
             v-for="entry in entries[0].sleep" 
@@ -88,38 +85,51 @@ export default {
     this.loaded = true
   },
   computed: {
-      needs(){
-        return this.$store.state.needs
-      },
-      userName(){
-        if (this.$store.state.users[0]) {
-          return this.$store.state.users[0].firstName
-        }
-        else {
-          return ''
-        }
-      },
-      userStatus(){
-        if (this.$store.state.users[0]) {
-          return this.$store.state.users[0].status
-        }
-        else {
-          return ''
-        }
-      },
-      entries(){
-        if (this.$store.state.entries) {
-          let weekdays = this.$store.state.entries[0].sleep.map(a => a.weekday);
-          let hrsSlept = this.$store.state.entries[0].sleep.map(a => a.hrsSlept);
-          console.log('entries', this.$store.state.entries)
-          //console.log('weekdays', hrsSlept)
-          return this.$store.state.entries
-        }
-        else {
-          return ''
+    needs(){
+      return this.$store.state.needs
+    },
+    userName(){
+      if (this.$store.state.users[0]) {
+        return this.$store.state.users[0].firstName
+      }
+      else {
+        return ''
+      }
+    },
+    userStatus(){
+      if (this.$store.state.users[0]) {
+        return this.$store.state.users[0].status
+      }
+      else {
+        return ''
+      }
+    },
+    sleepEntries(){
+      if (this.$store.state.entries) {
+        return {
+          labels: this.$store.state.weekdays,
+          datasets: [
+            {
+              label: 'Hrs slept',
+              backgroundColor: '#f87979',
+              data: this.$store.state.weeklyEntriesSleep
+            }
+          ]
         }
       }
-
+    },
+    entries(){
+      if (this.$store.state.entries) {
+        let weekdays = this.$store.state.entries[0].sleep.map(a => a.weekday);
+        let hrsSlept = this.$store.state.entries[0].sleep.map(a => a.hrsSlept);
+        console.log('weekdays', this.$store.state.weeklyEntriesSleep)
+        
+        return this.$store.state.entries
+      }
+      else {
+        return ''
+      }
+    }
   }
 }
 </script>
@@ -136,11 +146,16 @@ export default {
   .home-avatar
     height: 200px
 
+  .flex
+    display: flex
+    flex-direction: column
+
   .entry
     height: 50%
     display: flex
     justify-content: center
     align-items: center
+    margin-bottom: 30px
 
     &__btn
       display: flex

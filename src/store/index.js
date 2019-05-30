@@ -16,6 +16,8 @@ export const store = new Vuex.Store({
             {sleep: []},
             {social: []}
         ],
+        weeklyEntriesSleep: [],
+        weekdays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         users: [
         ],
         hrsSleep: [
@@ -153,12 +155,11 @@ export const store = new Vuex.Store({
             })
         },
         getUserData() {
-            this.state.entries[0].sleep = []
-            this.state.entries[0].social = []
             firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").limit(7).get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
                     this.state.entries[0].sleep.push(doc.data())
                 })
+                this.state.weeklyEntriesSleep = this.state.entries[0].sleep.map(a => a.hrsSlept)
             })
             firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(7).get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{

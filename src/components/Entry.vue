@@ -35,7 +35,7 @@ export default {
     components: {
         Sleep,
         Social
-  },
+    },
     created(){
         this.$store.state.users[0].status = 'empty'   
     },
