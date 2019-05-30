@@ -30,8 +30,14 @@
             </router-link>
           </div>
 
+          <weekly-chart 
+            v-show="!loaded"
+            :chartData="chartData"
+            :options="options"
+            ></weekly-chart>
+
           <WeeklyOverview
-            v-for="entry in sleepEntries[0].sleep" 
+            v-for="entry in entries[0].sleep" 
             :day="entry.weekday"
             :quantity="entry.hrsSlept"
             :key="entry.timeStamp">
@@ -44,22 +50,45 @@
 </template>
 
 <script>
-import NeedBar from '../components/NeedBar'
-import WeeklyOverview from '../components/WeeklyOverview'
+import NeedBar from '../components/NeedBar';
+import WeeklyOverview from '../components/WeeklyOverview';
+import WeeklyChart from '../components/WeeklyChart';
 
 export default {
     name: 'home',
     components: {
         NeedBar,
-        WeeklyOverview
+        WeeklyOverview,
+        WeeklyChart
   },
+  data: () => ({
+    chartData:  {
+      datacollection: {
+        labels: ['January', 'February'],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: '#f87979',
+            data: [10, 40]
+          }
+        ]
+      }
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  }),
   async created(){
+    this.loaded = false
     this.$store.dispatch('getNeedData')
     this.$store.dispatch('getUserData')
+    console.log('TIRED', this.chartData)
+
+    this.loaded = true
   },
   computed: {
       needs(){
-        console.log('needs', this.$store.state.needs)
         return this.$store.state.needs
       },
       userName(){
@@ -78,15 +107,19 @@ export default {
           return ''
         }
       },
-      sleepEntries(){
+      entries(){
         if (this.$store.state.entries) {
-          console.log('sleepentries', this.$store.state.entries[0].sleep)
+          let weekdays = this.$store.state.entries[0].sleep.map(a => a.weekday);
+          let hrsSlept = this.$store.state.entries[0].sleep.map(a => a.hrsSlept);
+          console.log('entries', this.$store.state.entries)
+          //console.log('weekdays', hrsSlept)
           return this.$store.state.entries
         }
         else {
           return ''
         }
       }
+
   }
 }
 </script>

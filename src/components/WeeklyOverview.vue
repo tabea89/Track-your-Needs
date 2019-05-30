@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="weekly-overview">
        <p> {{ day }} : {{ quantity }} hours of Sleep</p>
     </div>
 </template>
@@ -26,6 +26,10 @@ export default {
 </script>
 
 <style lang="sass">
+
+.weekly-overview
+    width: 100%
+    text-align: center
 
 
 </style>
