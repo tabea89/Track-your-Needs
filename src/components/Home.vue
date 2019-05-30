@@ -50,6 +50,7 @@
 import NeedBar from '../components/NeedBar';
 import WeeklyOverview from '../components/WeeklyOverview';
 import WeeklyChart from '../components/WeeklyChart';
+import moment from 'moment'
 
 export default {
     name: 'home',
@@ -58,31 +59,14 @@ export default {
         WeeklyOverview,
         WeeklyChart
   },
-  data: () => ({
-    chartData:  {
-      datacollection: {
-        labels: ['January', 'February'],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [10, 40]
-          }
-        ]
-      }
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false
-    }
-  }),
   async created(){
     this.loaded = false
     this.$store.dispatch('getNeedData')
     this.$store.dispatch('getUserData')
-    console.log('TIRED', this.chartData)
-
-    this.loaded = true
+    
+    const today = moment();
+    const from_date = moment().startOf('isoWeek');
+    console.log('TIME', from_date)
   },
   computed: {
     needs(){
@@ -120,10 +104,6 @@ export default {
     },
     entries(){
       if (this.$store.state.entries) {
-        let weekdays = this.$store.state.entries[0].sleep.map(a => a.weekday);
-        let hrsSlept = this.$store.state.entries[0].sleep.map(a => a.hrsSlept);
-        console.log('weekdays', this.$store.state.weeklyEntriesSleep)
-        
         return this.$store.state.entries
       }
       else {

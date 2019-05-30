@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import firebase from 'firebase';
+import moment from 'moment'
 
 Vue.use(Vuex);
 
@@ -47,6 +48,7 @@ export const store = new Vuex.Store({
     actions: {
         newSleepEntry() {
             var today = new Date();
+            var weekDay = moment().format('dddd')
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var time = today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + ":" + ('0' + today.getSeconds()).slice(-2);
             // Save to firestore
@@ -71,7 +73,7 @@ export const store = new Vuex.Store({
                             hrsSlept: this.state.needs[0].status,
                             timeStamp: date+' '+time,
                             day: date,
-                            weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                            weekday: weekDay
                         })
                     } 
                 } 
@@ -82,7 +84,7 @@ export const store = new Vuex.Store({
                         hrsSlept: this.state.needs[0].status,
                         timeStamp: date+' '+time,
                         day: date,
-                        weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                        weekday: weekDay
                     })
                 }
             });
@@ -90,14 +92,10 @@ export const store = new Vuex.Store({
         },
         newSocialEntry() {
             var today = new Date();
+            var weekDay = moment().format('dddd')
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var time = today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + ":" + ('0' + today.getSeconds()).slice(-2);
-            // Save to firestore
-           /*  firebase.firestore().collection('needs/2/social').doc().set({
-                user_id: this.state.users[0].id,
-                socialized: this.state.needs[1].status,
-                timeStamp: date+' '+time
-            }) */
+
             firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(1)
             .get()
             .then(querySnapshot => {
@@ -119,7 +117,7 @@ export const store = new Vuex.Store({
                             socialized: this.state.needs[1].status,
                             timeStamp: date+' '+time,
                             day: date,
-                            weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                            weekday: weekDay
                         });
                     } 
                 } 
@@ -130,7 +128,7 @@ export const store = new Vuex.Store({
                         socialized: this.state.needs[1].status,
                         timeStamp: date+' '+time,
                         day: date,
-                        weekday: today.toLocaleString('en-us', {  weekday: 'long' })
+                        weekday: weekDay
                     })
                 }
             });
