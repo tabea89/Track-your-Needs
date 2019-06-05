@@ -14,7 +14,36 @@ export const store = new Vuex.Store({
             {id: 4, name: 'Sport', status: 30}
         ],
         entries: [
-            {sleep: []},
+            {sleep: [
+                {
+                    weekday: "Monday",
+                    hrsSlept: 0,
+                },
+                {
+                    weekday: "Tuesday",
+                    hrsSlept: 0,
+                },
+                {
+                    weekday: "Wednesday",
+                    hrsSlept: 0,
+                },
+                {
+                    weekday: "Thursday",
+                    hrsSlept: 0,
+                },
+                {
+                    weekday: "Friday",
+                    hrsSlept: 0,
+                },
+                {
+                    weekday: "Saturday",
+                    hrsSlept: 0,
+                },
+                {
+                    weekday: "Sunday",
+                    hrsSlept: 0,
+                }
+            ]},
             {social: []}
         ],
         weeklyEntriesSleep: [],
@@ -47,10 +76,9 @@ export const store = new Vuex.Store({
     },
     actions: {
         newSleepEntry() {
-            var today = new Date();
             var weekDay = moment().format('dddd')
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            var time = today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + ":" + ('0' + today.getSeconds()).slice(-2);
+            var date = moment().format("MMM Do YY");
+            var time = moment().format();
             // Save to firestore
             firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").limit(1)
             .get()
@@ -63,7 +91,7 @@ export const store = new Vuex.Store({
                         // Overwrite entry of that dat
                         return queryDocumentSnapshot.ref.update({
                             hrsSlept: this.state.needs[0].status,
-                            timeStamp: date+' '+time,
+                            timeStamp: time,
                         });
                     } 
                     else {
@@ -71,7 +99,7 @@ export const store = new Vuex.Store({
                         firebase.firestore().collection('needs/1/sleep').doc().set({
                             user_id: this.state.users[0].id,
                             hrsSlept: this.state.needs[0].status,
-                            timeStamp: date+' '+time,
+                            timeStamp: time,
                             day: date,
                             weekday: weekDay
                         })
@@ -82,7 +110,7 @@ export const store = new Vuex.Store({
                     firebase.firestore().collection('needs/1/sleep').doc().set({
                         user_id: this.state.users[0].id,
                         hrsSlept: this.state.needs[0].status,
-                        timeStamp: date+' '+time,
+                        timeStamp: time,
                         day: date,
                         weekday: weekDay
                     })
@@ -91,10 +119,9 @@ export const store = new Vuex.Store({
 
         },
         newSocialEntry() {
-            var today = new Date();
-            var weekDay = moment().format('dddd')
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            var time = today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + ":" + ('0' + today.getSeconds()).slice(-2);
+            var weekDay = moment().format('dddd');
+            var date = moment().format("MMM Do YY");
+            var time = moment().format();
 
             firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(1)
             .get()
@@ -107,7 +134,7 @@ export const store = new Vuex.Store({
                         // Overwrite entry of that dat
                         return queryDocumentSnapshot.ref.update({
                             socialized: this.state.needs[1].status,
-                            timeStamp: date+' '+time,
+                            timeStamp: time,
                         });
                     } 
                     else {
@@ -115,7 +142,7 @@ export const store = new Vuex.Store({
                         firebase.firestore().collection('needs/2/social').doc().set({
                             user_id: this.state.users[0].id,
                             socialized: this.state.needs[1].status,
-                            timeStamp: date+' '+time,
+                            timeStamp: time,
                             day: date,
                             weekday: weekDay
                         });
@@ -126,7 +153,7 @@ export const store = new Vuex.Store({
                     firebase.firestore().collection('needs/2/social').doc().set({
                         user_id: this.state.users[0].id,
                         socialized: this.state.needs[1].status,
-                        timeStamp: date+' '+time,
+                        timeStamp: time,
                         day: date,
                         weekday: weekDay
                     })
@@ -134,14 +161,7 @@ export const store = new Vuex.Store({
             });
         },
         getNeedData() {
-            firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").limit(1).get().then((querySnapshot)=>{
-                let hrsSleep = []
-                querySnapshot.forEach(doc=>{
-                  hrsSleep.push(doc.data())
-                })
-                this.state.needs[0].status = hrsSleep[0].hrsSlept * 10
-                console.log('Sleep!!', this.state.needs[0].status )
-            })
+            // TO DO: Move to UserData
             firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(1).get().then((querySnapshot)=>{
                 let social = []
                 this.state.needs[1].status = 0
@@ -153,13 +173,23 @@ export const store = new Vuex.Store({
             })
         },
         getUserData() {
-            firebase.firestore().collection('needs/1/sleep').orderBy("timeStamp", "desc").limit(7).get().then((querySnapshot)=>{
+            // Get start date of the week
+            let today = moment();
+            let from_date = today.startOf('isoWeek').format();
+
+            firebase.firestore().collection('needs/1/sleep').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
-                    this.state.entries[0].sleep.push(doc.data())
+                    let day = this.state.entries[0].sleep.find(obj => obj.weekday == doc.data().weekday)
+                    day.hrsSlept = doc.data().hrsSlept
                 })
+                
+                // Set Needbar quantity to entry of current day 
+                let currentDay = moment().format('dddd')
+
+                this.state.needs[0].status = this.state.entries[0].sleep.find(obj => obj.weekday == currentDay).hrsSlept * 10
                 this.state.weeklyEntriesSleep = this.state.entries[0].sleep.map(a => a.hrsSlept)
             })
-            firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(7).get().then((querySnapshot)=>{
+            firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
                     this.state.entries[1].social.push(doc.data())
                 })

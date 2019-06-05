@@ -50,7 +50,6 @@
 import NeedBar from '../components/NeedBar';
 import WeeklyOverview from '../components/WeeklyOverview';
 import WeeklyChart from '../components/WeeklyChart';
-import moment from 'moment'
 
 export default {
     name: 'home',
@@ -63,10 +62,6 @@ export default {
     this.loaded = false
     this.$store.dispatch('getNeedData')
     this.$store.dispatch('getUserData')
-    
-    const today = moment();
-    const from_date = moment().startOf('isoWeek');
-    console.log('TIME', from_date)
   },
   computed: {
     needs(){
