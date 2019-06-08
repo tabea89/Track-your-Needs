@@ -35,7 +35,7 @@ export default {
     components: {
         Sleep,
         Social
-  },
+    },
     created(){
         this.$store.state.users[0].status = 'empty'   
     },
@@ -59,7 +59,6 @@ export default {
             }
             else if (this.userStatus === 'sleepLogged'){
                 this.$store.commit('updateEntrySocial', this.$store.state.needs[1].status)
-                console.log('WHYY', this.$store.state.needs[1].status)
                 this.$store.state.users[0].status = 'socialLogged'
                 this.$store.dispatch('newSocialEntry')
                 // Refresh on home page necessary currently because database data not there yet after routing there

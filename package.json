@@ -9,13 +9,14 @@
     "test": "jest --no-cache"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bulma": "^0.7.4",
     "bulma-divider": "^0.2.0",
     "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
     "firebase": "^5.10.0",
     "jest-transform-css": "^2.0.0",
+    "moment": "^2.24.0",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
     "vue-router": "^3.0.3",
