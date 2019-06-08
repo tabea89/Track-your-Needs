@@ -48,14 +48,12 @@
 
 <script>
 import NeedBar from '../components/NeedBar';
-import WeeklyOverview from '../components/WeeklyOverview';
 import WeeklyChart from '../components/WeeklyChart';
 
 export default {
     name: 'home',
     components: {
         NeedBar,
-        WeeklyOverview,
         WeeklyChart
   },
   async created(){
