@@ -33,12 +33,12 @@
           <h2>Weekly Overview</h2>
           <weekly-chart :chart-data="sleepEntries"></weekly-chart>
 
-          <WeeklyOverview
+          <!-- <WeeklyOverview
             v-for="entry in entries[0].sleep" 
             :day="entry.weekday"
             :quantity="entry.hrsSlept"
             :key="entry.timeStamp">
-          </WeeklyOverview>
+          </WeeklyOverview> -->
 
         </div>
       </div>
@@ -59,29 +59,18 @@ export default {
         WeeklyChart
   },
   async created(){
-    this.loaded = false
     this.$store.dispatch('getNeedData')
     this.$store.dispatch('getUserData')
   },
   computed: {
     needs(){
-      return this.$store.state.needs
+      return this.$store.state.needs;
     },
     userName(){
-      if (this.$store.state.users[0]) {
-        return this.$store.state.users[0].firstName
-      }
-      else {
-        return ''
-      }
+      return this.$store.state.users[0] ? this.$store.state.users[0].firstName : '';
     },
     userStatus(){
-      if (this.$store.state.users[0]) {
-        return this.$store.state.users[0].status
-      }
-      else {
-        return ''
-      }
+      return this.$store.state.users[0] ? this.$store.state.users[0].status : '';
     },
     sleepEntries(){
       if (this.$store.state.entries) {
@@ -94,16 +83,11 @@ export default {
               data: this.$store.state.weeklyEntriesSleep
             }
           ]
-        }
+        };
       }
     },
     entries(){
-      if (this.$store.state.entries) {
-        return this.$store.state.entries
-      }
-      else {
-        return ''
-      }
+      return this.$store.state.entries ? this.$store.state.entries : '';
     }
   }
 }
