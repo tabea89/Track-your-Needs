@@ -59,7 +59,7 @@ export default {
         WeeklyChart
   },
   async created(){
-    this.$store.dispatch('getNeedData')
+    // this.$store.dispatch('getNeedData')
     this.$store.dispatch('getUserData')
   },
   computed: {

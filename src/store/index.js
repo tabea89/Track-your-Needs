@@ -160,23 +160,21 @@ export const store = new Vuex.Store({
                 } */
             });
         },
-        getNeedData() {
-            // TO DO: Move to UserData
-            firebase.firestore().collection('needs/2/social').orderBy("timeStamp", "desc").limit(1).get().then((querySnapshot)=>{
-                let social = []
-                this.state.needs[1].status = 0
-                querySnapshot.forEach(doc=>{
-                  social.push(doc.data())
-                })
-                console.log('social!!', social[0].socialized)
-                this.state.needs[1].status = social[0].socialized;
-            })
-        },
         getUserData() {
             // Get start date of the week
             let today = moment();
             let from_date = today.startOf('isoWeek').format();
 
+            // Get Social entry of the day
+            firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
+                let social = []
+                querySnapshot.forEach(doc=>{
+                  social.push(doc.data())
+                })
+                this.state.needs[1].status = social[0].socialized;
+            })
+
+            // Get Sleep entries of the week
             firebase.firestore().collection('needs/1/sleep').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
                     let day = this.state.entries[0].sleep.find(obj => obj.weekday == doc.data().weekday)
@@ -187,6 +185,8 @@ export const store = new Vuex.Store({
                 let currentDay = moment().format('dddd');
 
                 this.state.needs[0].status = this.state.entries[0].sleep.find(obj => obj.weekday == currentDay).hrsSlept * 10;
+                
+                // Create Array with sleep data for each weekday for chart
                 this.state.weeklyEntriesSleep = this.state.entries[0].sleep.map(a => a.hrsSlept);
             })
             firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
