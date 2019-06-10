@@ -5,7 +5,7 @@ By filling in your needs daily and seeing a weekly overview you notice which nee
 
 If a need is fulfilled the correlating need bar is green but if you for example don't get enough sleep the bar turns red.
 
-[[https://github.com/tabea89/need_tracker_app/master/src/assets/img/girl.svg|alt=octocat]]
+!|text](https://github.com/tabea89/need_tracker_app/master/src/assets/img/girl.svg)
 
 
 # Technology Stack
