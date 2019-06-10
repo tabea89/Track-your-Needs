@@ -23,8 +23,6 @@ export default {
             picked: ""
         }
     },
-    computed: {
-    },
     watch: {
         picked: function(val){
             if (val == "Yes") {
@@ -34,10 +32,7 @@ export default {
                 this.$store.state.needs[1].status = 10
             }
         }
-    },
-    methods: {
     }
-
 }
 </script>
 

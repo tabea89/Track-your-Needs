@@ -62,7 +62,8 @@ export default {
                 this.$store.state.users[0].status = 'socialLogged'
                 this.$store.dispatch('newSocialEntry')
                 // Refresh on home page necessary currently because database data not there yet after routing there
-                this.$router.push({name:'home'})
+                
+                
             }
         }
     }

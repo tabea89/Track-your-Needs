@@ -33,13 +33,6 @@
           <h2>Weekly Overview</h2>
           <weekly-chart :chart-data="sleepEntries"></weekly-chart>
 
-          <!-- <WeeklyOverview
-            v-for="entry in entries[0].sleep" 
-            :day="entry.weekday"
-            :quantity="entry.hrsSlept"
-            :key="entry.timeStamp">
-          </WeeklyOverview> -->
-
         </div>
       </div>
     </div>
@@ -56,8 +49,7 @@ export default {
         NeedBar,
         WeeklyChart
   },
-  async created(){
-    // this.$store.dispatch('getNeedData')
+  beforeCreate(){
     this.$store.dispatch('getUserData')
   },
   computed: {
@@ -77,7 +69,7 @@ export default {
           datasets: [
             {
               label: 'Hrs slept',
-              backgroundColor: '#f87979',
+              backgroundColor: this.$store.state.chartColors,
               data: this.$store.state.weeklyEntriesSleep
             }
           ]

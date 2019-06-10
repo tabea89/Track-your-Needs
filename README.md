@@ -1,4 +1,16 @@
-# track_your_needs
+# Track your needs
+The App lets you keep track of your basic needs: sleep, social life, nutrition and sport. 
+
+By filling in your needs daily and seeing a weekly overview you notice which needs to take better care of. 
+
+If a need is fulfilled the correlating need bar is green but if you for example don't get enough sleep the bar turns red.
+
+
+# Technology Stack
+Vue JS
+Google Firebase
+SASS
+
 
 ## Project setup
 ```
