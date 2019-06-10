@@ -5,13 +5,13 @@ By filling in your needs daily and seeing a weekly overview you notice which nee
 
 If a need is fulfilled the correlating need bar is green but if you for example don't get enough sleep the bar turns red.
 
-!|text](https://github.com/tabea89/need_tracker_app/master/src/assets/img/girl.svg)
+![solarized vim](https://github.com/tabea89/need_tracker_app/master/src/assets/img/girl.svg)
 
 
 # Technology Stack
 Vue JS
-Google Firebase
-SASS
+Google Firebase + Firestore
+SASS + Bulma
 
 
 ## Project setup
@@ -22,7 +22,6 @@ git clone https://github.com/tabea89/need_tracker_app.git
 ```
 npm install
 ```
-
 
 ### Compiles and hot-reloads for development
 ```
