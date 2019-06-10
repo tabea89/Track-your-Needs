@@ -1,16 +1,32 @@
 <template>
+    <div class="columns is-mobile">
+        <div class="column is-half">
+            <div class="entry__needicon">
+                <img class="entry__needicon--svg" src="../assets/img/moon.svg"/>
+            </div>
+            <span>Sleep</span>
+        </div>
 
-    <div class="select">
-        <label>How much did you sleep?</label>
-        <select v-model="hrsSlept">
-            <option 
-                v-for="hr in hrsSleep"
-                :key="hr.key"
-                :value="hr.value">
-                    {{hr.number}} 
-            </option>
-        </select>
+        <div class="is-divider-vertical"></div>
+
+        <div class="column is-half entry__data">
+
+            <div class="select">
+                <label>How much did you sleep?</label>
+                <select v-model="hrsSlept">
+                    <option 
+                        v-for="hr in hrsSleep"
+                        :key="hr.key"
+                        :value="hr.value">
+                            {{hr.number}} 
+                    </option>
+                </select>
+            </div>
+            
+        </div>
+        
     </div>
+
 
 </template>
 

@@ -2,25 +2,11 @@
     <div class="container">
         <h1 class="entry__header">How did today go?</h1>
 
-        <div class="columns is-mobile">
-            <div class="column is-half">
-                <div class="entry__needicon">
-                    <img class="entry__needicon--svg" src="../assets/img/moon.svg"/>
-                </div>
-                <span>Sleep</span>
-            </div>
+        <Sleep v-if="userStatus == 'empty'"></Sleep>
 
-            <div class="is-divider-vertical"></div>
+        <Social  v-else-if="userStatus == 'sleepLogged'"></Social>
 
-            <div class="column is-half entry__data">
-
-                <Sleep v-if="userStatus == 'empty'"></Sleep>
-
-                <Social  v-else-if="userStatus == 'sleepLogged'"></Social>
-
-                <button class="button is-primary submit" @click="save">Save</button>
-            </div>
-        </div>
+        <button class="button is-primary submit" @click="save">Save</button>
     </div>
 </template>
 
@@ -60,10 +46,7 @@ export default {
             else if (this.userStatus === 'sleepLogged'){
                 this.$store.commit('updateEntrySocial', this.$store.state.needs[1].status)
                 this.$store.state.users[0].status = 'socialLogged'
-                this.$store.dispatch('newSocialEntry')
-                // Refresh on home page necessary currently because database data not there yet after routing there
-                
-                
+                this.$store.dispatch('newSocialEntry')                
             }
         }
     }

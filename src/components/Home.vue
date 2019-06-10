@@ -23,7 +23,7 @@
           <div class="entry">
             <router-link :to="{ name: 'Entry' }" class="btn-entry">
               <button class="entry__btn">
-                <img class="home-icon--entry" src="../assets/img/add.svg" />
+                <img v-if="userStatus == 'empty'" class="home-icon--entry" src="../assets/img/add.svg" />
                 <span v-if="userStatus == 'empty'" class="entry-copy">Add entry</span>
                 <span v-else class="entry-copy">Update entry</span>
               </button>

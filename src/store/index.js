@@ -181,7 +181,7 @@ export const store = new Vuex.Store({
                 // Show weekday entry green if user slept more than 7hrs, red if less
                 this.state.chartColors = [];
                 this.state.weeklyEntriesSleep.forEach(entry => {
-                    if (entry > 7) {
+                    if (entry >= 7) {
                         this.state.chartColors.push('rgb(175, 228, 107)')
                     } else {
                         this.state.chartColors.push('#f87979')
