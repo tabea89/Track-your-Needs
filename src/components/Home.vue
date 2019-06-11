@@ -14,7 +14,7 @@
             :title="need.name"
             :key="need.name"
             :status="need.status"
-            class="column is-half"
+            class="column is-one-third-mobile is-two-thirds-tablet is-half-desktop"
             v-on:switch_overview="switchOverview"></NeedBar>
 
         </div>
@@ -31,13 +31,13 @@
             </router-link>
           </div>
 
-          <h2>Weekly Overview</h2>
-
-          <weekly-chart v-if="showOverview == 'Sleep'" :chart-data="sleepEntries"></weekly-chart>
-
-          <weekly-overview v-if="showOverview == 'Social Life'" :entries="socialEntries"></weekly-overview>
-
+          <div class="overview">
+            <h2>Weekly Overview</h2>
+            <weekly-chart v-if="showOverview == 'Sleep'" :chart-data="sleepEntries"></weekly-chart>
+            <weekly-overview v-if="showOverview == 'Social Life'" :entries="socialEntries"></weekly-overview>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -60,7 +60,7 @@ export default {
   },
   data (){
       return {
-          showOverview: 'Sleep'
+          showOverview: 'Sleep',
       };
   },
   computed: {
@@ -119,7 +119,7 @@ export default {
     flex-direction: column
 
   .entry
-    height: 50%
+    height: 10%
     display: flex
     justify-content: center
     align-items: center
@@ -128,6 +128,7 @@ export default {
     &__btn
       display: flex
       height: 50px
+      width: 250px
       padding: 10px
       cursor: pointer
 
@@ -138,6 +139,13 @@ export default {
       span
         width: 50%
         margin: auto
+
+  .overview
+    height: 90%
+
+    h2
+      margin-bottom: 20px
+      font-weight: bold
 
 
 </style>

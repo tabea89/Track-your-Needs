@@ -1,8 +1,9 @@
 <template>
-    <button class="container" v-on:click="changeOverview(title)">
+    <button class="container need" :class="{ active: isActive }" v-on:click="changeOverview(title)">
         <h1> {{ title }}</h1>
         <div class="bar">
-            <div class="needs-status" :style="{ width: status + '%', backgroundColor: activeColor}"></div>
+            <div class="needs-status" 
+                :style="{ width: status + '%', backgroundColor: activeColor}"></div>
         </div>
     </button>
 </template>
@@ -12,11 +13,6 @@
 export default {
     name: 'needbar',
     props: ['title', 'status'],
-    methods: {
-        changeOverview: function (need) {
-            this.$emit('switch_overview', need)
-        }
-    },
     computed: {
         activeColor: function() {
             if (this.status >= 70) {
@@ -29,11 +25,27 @@ export default {
                 return '#FE8989'
             }
         }
+    },
+    methods: {
+        changeOverview: function (need) {
+            this.$emit('switch_overview', need)
+        }
     }
 }
 </script>
 
 <style lang="sass">
+
+.need
+    border: none
+    background-color: rgba(0, 0, 0, 0)
+
+    &:focus
+        background-color: rgba(0, 0, 0, 0.1)
+        outline: none
+
+    &:hover
+        background-color: rgba(0, 0, 0, 0.1)
 
 .bar
     background: white

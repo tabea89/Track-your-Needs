@@ -57,6 +57,7 @@ export default {
 
 .entry__header
     margin-bottom: 40px
+    
 .entry__needicon
     width: 100%
     img

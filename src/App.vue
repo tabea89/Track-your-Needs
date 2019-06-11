@@ -54,7 +54,6 @@ body, html
     align-items: center
 
   footer 
-    position: absolute
     height: 40px
     width: 100%
     bottom: 0
