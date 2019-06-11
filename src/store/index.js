@@ -48,6 +48,7 @@ export const store = new Vuex.Store({
             {social: []}
         ],
         weeklyEntriesSleep: [],
+        weeklyEntriesSocial: [],
         chartColors: [],
         weekdays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         users: [],
@@ -148,6 +149,8 @@ export const store = new Vuex.Store({
             // Get start date of the week
             let today = moment();
             let from_date = today.startOf('isoWeek').format();
+            this.state.chartColors = [];
+            this.state.weeklyEntriesSocial = [];
 
             // Get Social entry of the day
             firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
@@ -188,9 +191,17 @@ export const store = new Vuex.Store({
                     }
                 });
             })
-            firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
+
+            firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "asc").get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
                     this.state.entries[1].social.push(doc.data())
+
+                    if (doc.data().socialized > 10) {
+                        this.state.weeklyEntriesSocial.push(true)
+                    }
+                    else {
+                        this.state.weeklyEntriesSocial.push(false)
+                    }
                 })
             });
             

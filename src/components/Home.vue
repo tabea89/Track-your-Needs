@@ -14,7 +14,8 @@
             :title="need.name"
             :key="need.name"
             :status="need.status"
-            class="column is-half"></NeedBar>
+            class="column is-half"
+            v-on:switch_overview="switchOverview"></NeedBar>
 
         </div>
 
@@ -31,7 +32,10 @@
           </div>
 
           <h2>Weekly Overview</h2>
-          <weekly-chart :chart-data="sleepEntries"></weekly-chart>
+
+          <weekly-chart v-if="showOverview == 'Sleep'" :chart-data="sleepEntries"></weekly-chart>
+
+          <weekly-overview v-if="showOverview == 'Social Life'" :entries="socialEntries"></weekly-overview>
 
         </div>
       </div>
@@ -42,15 +46,22 @@
 <script>
 import NeedBar from '../components/NeedBar';
 import WeeklyChart from '../components/WeeklyChart';
+import WeeklyOverview from '../components/WeeklyOverview';
 
 export default {
     name: 'home',
     components: {
         NeedBar,
-        WeeklyChart
+        WeeklyChart,
+        WeeklyOverview
   },
   beforeCreate(){
-    this.$store.dispatch('getUserData')
+    this.$store.dispatch('getUserData');
+  },
+  data (){
+      return {
+          showOverview: 'Sleep'
+      };
   },
   computed: {
     needs(){
@@ -76,8 +87,16 @@ export default {
         };
       }
     },
+    socialEntries(){
+      return this.$store.state.weeklyEntriesSocial ? this.$store.state.weeklyEntriesSocial : '';
+    },
     entries(){
       return this.$store.state.entries ? this.$store.state.entries : '';
+    }
+  },
+  methods: {
+    switchOverview(overview) {
+      this.showOverview = overview
     }
   }
 }
