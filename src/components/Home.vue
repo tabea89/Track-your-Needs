@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     switchOverview(overview) {
-      this.showOverview = overview
+      this.showOverview = overview;
     }
   }
 }

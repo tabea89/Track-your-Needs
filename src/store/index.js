@@ -10,9 +10,7 @@ export const store = new Vuex.Store({
     state: {
         needs: [
             {id: 1, name: 'Sleep', status: 0},
-            {id: 2, name: 'Social Life', status: 0},
-            {id: 3, name: 'Nutrition', status: 60},
-            {id: 4, name: 'Sport', status: 30}
+            {id: 2, name: 'Social Life', status: 0}
         ],
         entries: [
             {sleep: [
@@ -45,7 +43,36 @@ export const store = new Vuex.Store({
                     hrsSlept: 0,
                 }
             ]},
-            {social: []}
+            {social: [
+                {
+                    weekday: "Monday",
+                    socialized: 0,
+                },
+                {
+                    weekday: "Tuesday",
+                    socialized: 0,
+                },
+                {
+                    weekday: "Wednesday",
+                    socialized: 0,
+                },
+                {
+                    weekday: "Thursday",
+                    socialized: 0,
+                },
+                {
+                    weekday: "Friday",
+                    socialized: 0,
+                },
+                {
+                    weekday: "Saturday",
+                    socialized: 0,
+                },
+                {
+                    weekday: "Sunday",
+                    socialized: 0,
+                }
+            ]}
         ],
         weeklyEntriesSleep: [],
         weeklyEntriesSocial: [],
@@ -127,8 +154,8 @@ export const store = new Vuex.Store({
                             timeStamp: time,
                         })
                         .then(() => {
-                            router.push({name:'home'})                          
-                        })
+                            router.push({name:'home'});                          
+                        });
                     } 
                     else {
                         // First entry of that date
@@ -140,8 +167,8 @@ export const store = new Vuex.Store({
                             weekday: weekDay
                         })
                         .then(() => {
-                            router.push({name:'home'})                          
-                        })
+                            router.push({name:'home'});                     
+                        });
                     } 
             });
         },
@@ -154,7 +181,8 @@ export const store = new Vuex.Store({
 
             // Get Social entry of the day
             firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
-                let social = []
+                let social = [];
+
                 querySnapshot.forEach(doc=>{
                   social.push(doc.data())
                 })
@@ -162,15 +190,20 @@ export const store = new Vuex.Store({
                     this.state.needs[1].status = social[0].socialized;
                 }
                 else {
-                    this.state.needs[1].status = 0
+                    this.state.needs[1].status = 0;
                 }
-            })
+            });
 
             // Get Sleep entries of the week
-            firebase.firestore().collection('needs/1/sleep').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
+            firebase.firestore()
+            .collection('needs/1/sleep')
+            .where("timeStamp", ">", from_date)
+            .orderBy("timeStamp", "desc")
+            .get()
+            .then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
-                    let day = this.state.entries[0].sleep.find(obj => obj.weekday == doc.data().weekday)
-                    day.hrsSlept = doc.data().hrsSlept
+                    let day = this.state.entries[0].sleep.find(obj => obj.weekday == doc.data().weekday);
+                    day.hrsSlept = doc.data().hrsSlept;
                 })
                 
                 // Set Needbar quantity to entry of current day 
@@ -185,37 +218,38 @@ export const store = new Vuex.Store({
                 this.state.chartColors = [];
                 this.state.weeklyEntriesSleep.forEach(entry => {
                     if (entry >= 7) {
-                        this.state.chartColors.push('rgb(175, 228, 107)')
+                        this.state.chartColors.push('rgb(175, 228, 107)');
                     } else {
-                        this.state.chartColors.push('#f87979')
+                        this.state.chartColors.push('#f87979');
                     }
                 });
             })
 
-            firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "asc").get().then((querySnapshot)=>{
+            // Get Social entries of the week
+            firebase.firestore()
+            .collection('needs/2/social')
+            .where("timeStamp", ">", from_date)
+            .orderBy("timeStamp", "asc")
+            .get()
+            .then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
-                    this.state.entries[1].social.push(doc.data())
-
-                    if (doc.data().socialized > 10) {
-                        this.state.weeklyEntriesSocial.push(true)
-                    }
-                    else {
-                        this.state.weeklyEntriesSocial.push(false)
-                    }
+                    let day = this.state.entries[1].social.find(obj => obj.weekday == doc.data().weekday);
+                    day.socialized = doc.data().socialized;
                 })
+
+                // Create Array with social data for each weekday for chart
+                this.state.weeklyEntriesSocial = this.state.entries[1].social.map(a => a.socialized);
             });
             
             firebase.firestore().collection('users').get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
-                    this.state.users.push(doc.data())
+                    this.state.users.push(doc.data());
                 })
 
-                if (this.state.needs[0].status != 0) {
-                    this.state.users[0].status = 'logged'
+                if (this.state.needs[0].status !== 0) {
+                    this.state.users[0].status = 'logged';
                 }
             })
-
         },
-    },
-    getter: {}
+    }
 })

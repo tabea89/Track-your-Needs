@@ -1,5 +1,5 @@
 <template>
-    <button class="container need" :class="{ active: isActive }" v-on:click="changeOverview(title)">
+    <button class="container need" v-on:click="changeOverview(title)">
         <h1> {{ title }}</h1>
         <div class="bar">
             <div class="needs-status" 

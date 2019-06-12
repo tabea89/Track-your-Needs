@@ -3,9 +3,8 @@
         <div class="icons">
             <div v-for="entry in entries" class="icon"
             :key="entry">
-                <img v-if="entry == true" src="../assets/img/smile.svg" />
-                <img v-else-if="entry == false" src="../assets/img/sad.svg" />
-                <img v-else src="../assets/img/moon.svg" />
+                <img v-if="entry == 100" src="../assets/img/smile.svg" />
+                <img v-else-if="entry == 10" src="../assets/img/sad.svg" />
             </div>
         </div>
         <div class="weekdays">
@@ -49,9 +48,5 @@ export default {
     .weekdays
         display: flex
         justify-content: space-between
-
-        .weekday
-
-
 
 </style>

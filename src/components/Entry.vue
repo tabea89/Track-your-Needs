@@ -23,30 +23,30 @@ export default {
         Social
     },
     created(){
-        this.$store.state.users[0].status = 'empty'   
+        this.$store.state.users[0].status = 'empty';
     },
     computed: {
         hrsSleep(){
-            return this.$store.state.hrsSleep
+            return this.$store.state.hrsSleep;
         },
         userStatus(){
-            return this.$store.state.users[0].status
+            return this.$store.state.users[0].status;
         },
         icon(){
-            return "../assets/img/moon.svg"
+            return "../assets/img/moon.svg";
         }
     },
     methods: {
         save: function(){
-                this.$store.commit('updateEntrySleep', this.$store.state.needs[0].status)
+                this.$store.commit('updateEntrySleep', this.$store.state.needs[0].status);
             if (this.userStatus === 'empty') {
-                this.$store.commit('updateStatus', 'sleepLogged')
-                this.$store.dispatch('newSleepEntry')
+                this.$store.commit('updateStatus', 'sleepLogged');
+                this.$store.dispatch('newSleepEntry');
             }
             else if (this.userStatus === 'sleepLogged'){
-                this.$store.commit('updateEntrySocial', this.$store.state.needs[1].status)
-                this.$store.state.users[0].status = 'socialLogged'
-                this.$store.dispatch('newSocialEntry')                
+                this.$store.commit('updateEntrySocial', this.$store.state.needs[1].status);
+                this.$store.state.users[0].status = 'socialLogged';
+                this.$store.dispatch('newSocialEntry');               
             }
         }
     }
@@ -71,6 +71,5 @@ export default {
 
     button
         width: 200px
-
 
 </style>

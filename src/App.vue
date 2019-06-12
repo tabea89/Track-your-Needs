@@ -56,6 +56,7 @@ body, html
   footer 
     height: 40px
     width: 100%
+    margin-top: 80px
     bottom: 0
     background-color: #C4C4C4
 

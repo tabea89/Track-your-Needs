@@ -17,6 +17,7 @@
     "firebase": "^5.10.0",
     "jest-transform-css": "^2.0.0",
     "moment": "^2.24.0",
+    "prettier": "^1.18.2",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
     "vue-router": "^3.0.3",
