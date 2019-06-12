@@ -1,6 +1,18 @@
 <template>
     <div class="weekly-overview">
-       <p> {{ day }} : {{ quantity }} hours of Sleep</p>
+        <div class="icons">
+            <div v-for="entry in entries" class="icon"
+            :key="entry">
+                <img v-if="entry == 100" src="../assets/img/smile.svg" />
+                <img v-else-if="entry == 10" src="../assets/img/sad.svg" />
+            </div>
+        </div>
+        <div class="weekdays">
+            <div class="weekday" v-for="weekday in weekdays"
+                :key="weekday">
+                <span>{{weekday}}</span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -8,19 +20,13 @@
 
 export default {
     name: 'needbar',
-    props: ['day', 'quantity'],
-    computed: {
-        activeColor: function() {
-            if (this.status >= 70) {
-                return '#AFE46B'
-            }
-            else if (this.status >= 40){
-                return '#F7c5c4'
-            }
-            else {
-                return '#FE8989'
-            }
+    data (){
+        return {
+            weekdays: this.$store.state.weekdays
         }
+    },
+    props: ['entries'],
+    computed: {
     }
 }
 </script>
@@ -29,7 +35,18 @@ export default {
 
 .weekly-overview
     width: 100%
-    text-align: center
+    margin-top: 50px
 
+    .icons
+        display: flex
+
+        .icon
+            height: 50px
+            width: 50px
+            margin-right: 30px
+
+    .weekdays
+        display: flex
+        justify-content: space-between
 
 </style>
