@@ -1,10 +1,11 @@
 <template>
-    <div class="container">
+    <button class="container need" v-on:click="changeOverview(title)">
         <h1> {{ title }}</h1>
         <div class="bar">
-            <div class="needs-status" :style="{ width: status + '%', backgroundColor: activeColor}"></div>
+            <div class="needs-status" 
+                :style="{ width: status + '%', backgroundColor: activeColor}"></div>
         </div>
-    </div>
+    </button>
 </template>
 
 <script>
@@ -24,11 +25,27 @@ export default {
                 return '#FE8989'
             }
         }
+    },
+    methods: {
+        changeOverview: function (need) {
+            this.$emit('switch_overview', need)
+        }
     }
 }
 </script>
 
 <style lang="sass">
+
+.need
+    border: none
+    background-color: rgba(0, 0, 0, 0)
+
+    &:focus
+        background-color: rgba(0, 0, 0, 0.1)
+        outline: none
+
+    &:hover
+        background-color: rgba(0, 0, 0, 0.1)
 
 .bar
     background: white

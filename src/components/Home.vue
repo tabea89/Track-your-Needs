@@ -14,7 +14,8 @@
             :title="need.name"
             :key="need.name"
             :status="need.status"
-            class="column is-half"></NeedBar>
+            class="column is-one-third-mobile is-two-thirds-tablet is-half-desktop"
+            v-on:switch_overview="switchOverview"></NeedBar>
 
         </div>
 
@@ -23,24 +24,20 @@
           <div class="entry">
             <router-link :to="{ name: 'Entry' }" class="btn-entry">
               <button class="entry__btn">
-                <img class="home-icon--entry" src="../assets/img/add.svg" />
+                <img v-if="userStatus == 'empty'" class="home-icon--entry" src="../assets/img/add.svg" />
                 <span v-if="userStatus == 'empty'" class="entry-copy">Add entry</span>
                 <span v-else class="entry-copy">Update entry</span>
               </button>
             </router-link>
           </div>
 
-          <h2>Weekly Overview</h2>
-          <weekly-chart :chart-data="sleepEntries"></weekly-chart>
-
-          <!-- <WeeklyOverview
-            v-for="entry in entries[0].sleep" 
-            :day="entry.weekday"
-            :quantity="entry.hrsSlept"
-            :key="entry.timeStamp">
-          </WeeklyOverview> -->
-
+          <div class="overview">
+            <h2>Weekly Overview</h2>
+            <weekly-chart v-if="showOverview == 'Sleep'" :chart-data="sleepEntries"></weekly-chart>
+            <weekly-overview v-if="showOverview == 'Social Life'" :entries="socialEntries"></weekly-overview>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -48,19 +45,23 @@
 
 <script>
 import NeedBar from '../components/NeedBar';
-import WeeklyOverview from '../components/WeeklyOverview';
 import WeeklyChart from '../components/WeeklyChart';
+import WeeklyOverview from '../components/WeeklyOverview';
 
 export default {
     name: 'home',
     components: {
         NeedBar,
-        WeeklyOverview,
-        WeeklyChart
+        WeeklyChart,
+        WeeklyOverview
   },
-  async created(){
-    this.$store.dispatch('getNeedData')
-    this.$store.dispatch('getUserData')
+  beforeCreate(){
+    this.$store.dispatch('getUserData');
+  },
+  data (){
+      return {
+          showOverview: 'Sleep',
+      };
   },
   computed: {
     needs(){
@@ -79,15 +80,23 @@ export default {
           datasets: [
             {
               label: 'Hrs slept',
-              backgroundColor: '#f87979',
+              backgroundColor: this.$store.state.chartColors,
               data: this.$store.state.weeklyEntriesSleep
             }
           ]
         };
       }
     },
+    socialEntries(){
+      return this.$store.state.entries[1].social ? this.$store.state.entries[1].social : '';
+    },
     entries(){
       return this.$store.state.entries ? this.$store.state.entries : '';
+    }
+  },
+  methods: {
+    switchOverview(overview) {
+      this.showOverview = overview;
     }
   }
 }
@@ -110,7 +119,7 @@ export default {
     flex-direction: column
 
   .entry
-    height: 50%
+    height: 15%
     display: flex
     justify-content: center
     align-items: center
@@ -119,6 +128,7 @@ export default {
     &__btn
       display: flex
       height: 50px
+      width: 250px
       padding: 10px
       cursor: pointer
 
@@ -129,6 +139,13 @@ export default {
       span
         width: 50%
         margin: auto
+
+  .overview
+    height: 85%
+
+    h2
+      margin-bottom: 20px
+      font-weight: bold
 
 
 </style>

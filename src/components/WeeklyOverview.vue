@@ -1,6 +1,16 @@
 <template>
     <div class="weekly-overview">
-       <p> {{ day }} : {{ quantity }} hours of Sleep</p>
+        <div class="social-wrapper">
+            <div v-for="entry in entries"
+                :key="entry"
+                class="social-entry">
+                <div class="social-icon">
+                    <img v-if="entry.socialized == 100" src="../assets/img/smile.svg" />
+                    <img v-else-if="entry.socialized == 10" src="../assets/img/sad.svg" />
+                </div>
+                <span>{{entry.weekday}}</span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -8,20 +18,7 @@
 
 export default {
     name: 'needbar',
-    props: ['day', 'quantity'],
-    computed: {
-        activeColor: function() {
-            if (this.status >= 70) {
-                return '#AFE46B'
-            }
-            else if (this.status >= 40){
-                return '#F7c5c4'
-            }
-            else {
-                return '#FE8989'
-            }
-        }
-    }
+    props: ['entries']
 }
 </script>
 
@@ -29,7 +26,20 @@ export default {
 
 .weekly-overview
     width: 100%
-    text-align: center
+    margin-top: 50px
 
+    .social-wrapper
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-between
+
+        .social-entry
+            display: flex
+            flex-direction: column
+            align-items: center
+
+        .social-icon
+            height: 30px
+            width: 30px
 
 </style>
