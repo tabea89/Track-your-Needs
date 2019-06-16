@@ -5,7 +5,8 @@ By filling in your needs daily and seeing a weekly overview you notice which nee
 
 If a need is fulfilled the correlating need bar is green but if you, for example, don't get enough sleep the bar turns red.
 
-![app dashboard](src/assets/img/dashboard.png)
+![app dashboard](src/assets/img/dashboard_sleep.png)
+![app dashboard](src/assets/img/dashboard_social.png)
 
 # Future Work
 - Add more needs: nutrition + sport
