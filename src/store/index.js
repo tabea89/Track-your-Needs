@@ -173,26 +173,12 @@ export const store = new Vuex.Store({
             });
         },
         getUserData() {
-            // Get start date of the week
+            // Get date data with moment.js
             let today = moment();
             let from_date = today.startOf('isoWeek').format();
             this.state.chartColors = [];
             this.state.weeklyEntriesSocial = [];
-
-            // Get Social entry of the day
-            firebase.firestore().collection('needs/2/social').where("timeStamp", ">", from_date).orderBy("timeStamp", "desc").get().then((querySnapshot)=>{
-                let social = [];
-
-                querySnapshot.forEach(doc=>{
-                  social.push(doc.data())
-                })
-                if (social[0]) {
-                    this.state.needs[1].status = social[0].socialized;
-                }
-                else {
-                    this.state.needs[1].status = 0;
-                }
-            });
+            let currentDay = moment().format('dddd');
 
             // Get Sleep entries of the week
             firebase.firestore()
@@ -207,8 +193,6 @@ export const store = new Vuex.Store({
                 })
                 
                 // Set Needbar quantity to entry of current day 
-                let currentDay = moment().format('dddd');
-
                 this.state.needs[0].status = this.state.entries[0].sleep.find(obj => obj.weekday == currentDay).hrsSlept * 10;
                 
                 // Create Array with sleep data for each weekday for chart
@@ -239,8 +223,12 @@ export const store = new Vuex.Store({
 
                 // Create Array with social data for each weekday for chart
                 this.state.weeklyEntriesSocial = this.state.entries[1].social.map(a => a.socialized);
+
+                // Set Needbar quantity to entry of current day 
+                this.state.needs[1].status = this.state.entries[1].social.find(obj => obj.weekday == currentDay).socialized
+
             });
-            
+
             firebase.firestore().collection('users').get().then((querySnapshot)=>{
                 querySnapshot.forEach(doc=>{
                     this.state.users.push(doc.data());
