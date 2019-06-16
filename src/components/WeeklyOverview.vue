@@ -1,16 +1,14 @@
 <template>
     <div class="weekly-overview">
-        <div class="icons">
-            <div v-for="entry in entries" class="icon"
-            :key="entry">
-                <img v-if="entry == 100" src="../assets/img/smile.svg" />
-                <img v-else-if="entry == 10" src="../assets/img/sad.svg" />
-            </div>
-        </div>
-        <div class="weekdays">
-            <div class="weekday" v-for="weekday in weekdays"
-                :key="weekday">
-                <span>{{weekday}}</span>
+        <div class="social-wrapper">
+            <div v-for="entry in entries"
+                :key="entry"
+                class="social-entry">
+                <div class="social-icon">
+                    <img v-if="entry.socialized == 100" src="../assets/img/smile.svg" />
+                    <img v-else-if="entry.socialized == 10" src="../assets/img/sad.svg" />
+                </div>
+                <span>{{entry.weekday}}</span>
             </div>
         </div>
     </div>
@@ -20,14 +18,7 @@
 
 export default {
     name: 'needbar',
-    data (){
-        return {
-            weekdays: this.$store.state.weekdays
-        }
-    },
-    props: ['entries'],
-    computed: {
-    }
+    props: ['entries']
 }
 </script>
 
@@ -37,16 +28,18 @@ export default {
     width: 100%
     margin-top: 50px
 
-    .icons
+    .social-wrapper
         display: flex
-
-        .icon
-            height: 50px
-            width: 50px
-            margin-right: 30px
-
-    .weekdays
-        display: flex
+        flex-wrap: wrap
         justify-content: space-between
+
+        .social-entry
+            display: flex
+            flex-direction: column
+            align-items: center
+
+        .social-icon
+            height: 30px
+            width: 30px
 
 </style>

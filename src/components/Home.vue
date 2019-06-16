@@ -88,7 +88,7 @@ export default {
       }
     },
     socialEntries(){
-      return this.$store.state.weeklyEntriesSocial ? this.$store.state.weeklyEntriesSocial : '';
+      return this.$store.state.entries[1].social ? this.$store.state.entries[1].social : '';
     },
     entries(){
       return this.$store.state.entries ? this.$store.state.entries : '';
@@ -119,7 +119,7 @@ export default {
     flex-direction: column
 
   .entry
-    height: 10%
+    height: 15%
     display: flex
     justify-content: center
     align-items: center
@@ -141,7 +141,7 @@ export default {
         margin: auto
 
   .overview
-    height: 90%
+    height: 85%
 
     h2
       margin-bottom: 20px
